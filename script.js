@@ -44,6 +44,7 @@ function loadCart() {
             cart = [];
         }
     }
+    updateCartList();
 }
 
 
