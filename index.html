@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Cửa hàng Trái Cây</title>
+<link rel="stylesheet" href="styles.css"> 
+</head>
+<body>
+
+<div class="grid-container" id="product-list"></div>
+
+<div id="cart-section">
+  <div class="cart-header">Giỏ hàng của bạn</div>
+  <div id="cart-items"></div>
+  <div class="cart-total">Tổng: <span id="total-price">0</span>đ</div>
+  <button class="btn btn-checkout" onclick="checkout()">Thanh toán ngay</button>
+  <button class="btn" style="background:#777; margin-top:5px; width: 100%;" onclick="toggleCart()">Đóng</button>
+</div>
+
+<div id="product-modal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal()">&times;</span>
+    
+    <div class="modal-left">
+      <img id="m-img" class="modal-img" src="" alt="">
+    </div>
+    
+    <div class="modal-right">
+      <h2 id="m-name" class="detail-title">Tên sản phẩm</h2>
+      <div class="detail-status">Thương hiệu: Việt Nam | Tình trạng: <b>Còn hàng</b></div>
+      <div id="m-price" class="detail-price">0đ</div>
+      <p id="m-desc" class="detail-desc">Mô tả sản phẩm...</p>
+      
+      <div class="quantity-selector">
+        <span class="qty-label">Số lượng:</span>
+        <button class="qty-btn" onclick="adjustQty(-1)">-</button>
+        <input type="text" id="m-qty" class="qty-input" value="1" readonly>
+        <button class="qty-btn" onclick="adjustQty(1)">+</button>
+      </div>
+
+      <button class="btn-buy-now" onclick="addFromModal()">Thêm vào giỏ hàng</button>
+      
+      <div class="hotline-text">
+        Gọi đặt mua: <span class="hotline-highlight">0901116789</span> (Giao hàng tận nơi)
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
