@@ -142,7 +142,6 @@ body {
     border-radius: 10px;
     padding: 15px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    display: flex; 
     z-index: 1000;
     
     /* HIỆU ỨNG THANG MÁY: */
@@ -180,4 +179,5 @@ body {
 }
 #cart-items .cart-item button:hover {
     opacity: 0.8;
+
 }
