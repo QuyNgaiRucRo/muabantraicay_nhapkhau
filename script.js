@@ -12,8 +12,42 @@ const products = [
 
 let cart = [];
 let currentProductId = null;
+let isTicking = false; 
 
-// Hiển thị sản phẩm ra màn hình
+// ------------------------------------------------------
+// CHỨC NĂNG LOCAL STORAGE (QUAN TRỌNG)
+// ------------------------------------------------------
+
+/**
+ * Lưu dữ liệu giỏ hàng (cart) vào Local Storage.
+ * Sẽ được gọi sau mỗi thao tác thêm, giảm, xóa sản phẩm.
+ */
+function saveCart() {
+    // Lưu biến 'cart' dưới dạng chuỗi JSON
+    localStorage.setItem('myStoreCart', JSON.stringify(cart));
+    // Cập nhật lại giao diện ngay sau khi lưu
+    updateCartList(); 
+}
+
+/**
+ * Tải dữ liệu giỏ hàng từ Local Storage khi trang tải.
+ * Sẽ được gọi ở cuối tệp script.
+ */
+function loadCart() {
+    const savedCart = localStorage.getItem('myStoreCart');
+    if (savedCart) {
+        try {
+            // Chuyển chuỗi JSON thành mảng JavaScript và gán cho biến 'cart'
+            cart = JSON.parse(savedCart);
+        } catch (e) {
+            console.error("Lỗi khi tải giỏ hàng từ LocalStorage:", e);
+            cart = [];
+        }
+    }
+}
+
+
+// --- HÀM HIỂN THỊ SẢN PHẨM (Giữ nguyên) ---
 function render() {
   const container = document.getElementById('product-list');
   container.innerHTML = ''; 
@@ -32,7 +66,7 @@ function render() {
   });
 }
 
-// Cập nhật giỏ hàng chi tiết
+// --- HÀM CẬP NHẬT GIỎ HÀNG VÀ VỊ TRÍ (Giữ nguyên logic thang máy, nhưng đã bị bỏ qua) ---
 function updateCartList() {
     const cartItemsDiv = document.getElementById('cart-items');
     const totalSpan = document.getElementById('total-price');
@@ -40,7 +74,6 @@ function updateCartList() {
     
     let total = 0;
     
-    // 1. Gom nhóm sản phẩm giống nhau để hiển thị
     const groupedCart = {};
     cart.forEach(item => {
         if (!groupedCart[item.id]) {
@@ -49,7 +82,6 @@ function updateCartList() {
         groupedCart[item.id].totalQty += item.qty;
     });
 
-    // 2. Hiển thị danh sách chi tiết
     for (const id in groupedCart) {
        const item = groupedCart[id];
        const itemTotal = item.price * item.totalQty;
@@ -74,38 +106,36 @@ function updateCartList() {
 
     totalSpan.innerText = total.toLocaleString('vi-VN');
     
-    // Ẩn/Hiện khu vực giỏ hàng
     const cartSec = document.getElementById('cart-section');
     cartSec.style.display = cart.length > 0 ? 'block' : 'none';
-    setTimeout(moveCartElevator, 0);
+    
+    // Nếu có kích hoạt chế độ thang máy, gọi hàm này
+    // if (cart.length > 0) { setTimeout(moveCartElevator, 100); }
 }
 
 
-// Giảm số lượng sản phẩm
+// --- HÀM THAO TÁC GIỎ HÀNG (ĐÃ THÊM saveCart() SAU MỖI THAY ĐỔI) ---
 function decreaseItem(id) {
-    const index = cart.findIndex(item => item.id === id);
+    const index = cart.findIndex(item => item.id === id); 
     if (index !== -1) {
         if (cart[index].qty > 1) {
-            cart[index].qty--; 
+            cart[index].qty--;
         } else {
             cart.splice(index, 1);
-            }
+        }
     }
-    updateCartList(); // Cập nhật lại giao diện
+    // GỌI SAVE
+    saveCart(); 
 }
 
-// Xóa hẳn sản phẩm khỏi giỏ hàng
 function removeItem(id) {
-    // Xóa tất cả các mục có cùng ID khỏi giỏ hàng
-    const product = products.find(p => p.id === id);
     cart = cart.filter(item => item.id !== id);
-    alert(`Đã xóa tất cả ${product.name} khỏi giỏ hàng.`);
-    updateCartList(); // Cập nhật lại giao diện
+    // GỌI SAVE
+    saveCart();
 }
 
 function toggleCart() {
    const cartSec = document.getElementById('cart-section');
-   // Đảo trạng thái hiện/ẩn (nếu hiện thì ẩn, nếu ẩn thì hiện)
    cartSec.style.display = cartSec.style.display === 'none' || cart.length === 0 ? 'block' : 'none';
    if(cart.length === 0 && cartSec.style.display === 'block') {
        alert("Giỏ hàng chưa có sản phẩm nào!");
@@ -114,10 +144,8 @@ function toggleCart() {
 }
 
 
-// --- XỬ LÝ THÊM VÀO GIỎ ---
 function addToCart(id, quantity) {
   const product = products.find(p => p.id === id);
-  
   const existingItem = cart.find(i => i.id === id);
   
   if (existingItem) {
@@ -126,33 +154,40 @@ function addToCart(id, quantity) {
     cart.push({ ...product, qty: quantity });
   }
   
-  updateCartList(); // Cập nhật danh sách chi tiết
+  // GỌI SAVE
+  saveCart();
 }
 
-// --- XỬ LÝ POPUP VÀ THANH TOÁN ---
+// --- HÀM POPUP VÀ THANH TOÁN (Giữ nguyên) ---
 function openModal(id) {
   const p = products.find(x => x.id === id);
   currentProductId = id;
   
-  // Điền thông tin vào Popup
   document.getElementById('m-img').src = p.img;
   document.getElementById('m-name').innerText = p.name;
   document.getElementById('m-price').innerText = p.price.toLocaleString('vi-VN') + 'đ';
   document.getElementById('m-desc').innerText = p.desc;
   document.getElementById('m-qty').value = 1;
   
-  // Hiện popup
-  document.getElementById('product-modal').style.display = 'flex';
+  const modal = document.getElementById('product-modal');
+  
+  // Logic cũ của popup đã bỏ qua:
+  // const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  // const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+  // modal.style.top = scrollTop + 'px'; 
+  // modal.style.height = viewportHeight + 'px';
+  modal.style.display = 'flex';
 }
 
 function closeModal() {
-  document.getElementById('product-modal').style.display = 'none';
+  const modal = document.getElementById('product-modal');
+  modal.style.display = 'none';
 }
 
 window.onclick = function(event) {
   const modal = document.getElementById('product-modal');
   if (event.target == modal) {
-    modal.style.display = "none";
+    closeModal(); 
   }
 }
 
@@ -194,36 +229,6 @@ function checkout() {
   }
 }
 
-function moveCartElevator() {
-    const cartSec = document.getElementById('cart-section');
-    
-    // Chỉ chạy khi giỏ hàng đang hiển thị
-    if (cartSec.style.display !== 'block') return;
-
-    // 1. Lấy vị trí cuộn hiện tại
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    
-    // 2. Lấy chiều cao màn hình người xem
-    const windowHeight = window.innerHeight;
-    
-    // 3. Lấy chiều cao của bản thân giỏ hàng
-    const cartHeight = cartSec.offsetHeight;
-
-    // 4. Tính toán vị trí đích:
-    // Vị trí cuộn + Chiều cao màn hình - Chiều cao giỏ - Khoảng cách đáy (20px)
-    let targetTop = scrollTop + windowHeight - cartHeight - 20;
-    
-    // Đảm bảo không bị trôi lên quá cao (nếu cần)
-    if (targetTop < 0) targetTop = 20;
-
-    // 5. Gán vị trí mới (CSS transition sẽ làm nó trượt êm đến đây)
-    cartSec.style.top = targetTop + 'px';
-}
-
-// Kích hoạt khi cuộn chuột
-window.addEventListener('scroll', moveCartElevator);
-
-// Kích hoạt khi thay đổi kích thước màn hình
-window.addEventListener('resize', moveCartElevator);
-
+// Bắt đầu: Tải giỏ hàng trước, sau đó hiển thị sản phẩm
+loadCart(); 
 render();
