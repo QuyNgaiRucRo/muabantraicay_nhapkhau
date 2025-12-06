@@ -1,13 +1,11 @@
-// script.js
-
-// Dữ liệu sản phẩm
+// Dữ liệu sản phẩm 
 const products = [
-  { id: 1, name: "Cherry Đỏ Mỹ", price: 189000, img: "NhapKhau/cherry.jpg", desc: "Cherry đỏ Mỹ được ưa chuộng nhờ vỏ đỏ bóng đẹp, thịt chắc giòn và vị ngọt đậm đặc trưng. Đây là loại trái cây cao cấp, thích hợp để thưởng thức hằng ngày hoặc làm quà biếu." },
-  { id: 2, name: "Việt Quất", price: 90000, img: "NhapKhau/VietQuat.jpg", desc: "Quả việt quất nổi bật với màu xanh tím đặc trưng, vị ngọt nhẹ xen chút chua thanh và hàm lượng dinh dưỡng cao. Giàu chất chống oxy hóa, vitamin và chất xơ."},
-  { id: 3, name: "Nho Mẫu Đơn Hàn Quốc", price: 650000, img: "NhapKhau/NhoHan.jpg", desc: "Nho mẫu đơn Hàn Quốc gây ấn tượng với chùm lớn, quả to tròn và lớp vỏ tím đậm đẹp mắt. Luôn đạt chất lượng đồng đều, thích hợp làm quà biếu hoặc thưởng thức hằng ngày."},
-  { id: 4, name: "Lựu Peru", price: 119000, img: "NhapKhau/LuuPeru.jpg", desc: "Lựu Peru nổi tiếng với hạt đỏ hồng ngọc đẹp mắt, vị ngọt thanh xen chút chua nhẹ và độ giòn đặc trưng. Được ưa chuộng nhờ hương vị thơm ngon và giá trị dinh dưỡng vượt trội."},
-  { id: 5, name: "Lê Hàn Quốc", price: 155000, img: "NhapKhau/LeHan.jpg", desc: "Lê Hàn Quốc luôn có kích thước lớn, hương vị thanh mát và chất lượng đồng đều. thích hợp để thưởng thức hằng ngày hoặc làm quà biếu sang trọng"},
-  { id: 6, name: "Táo Rockit", price: 129000, img: "NhapKhau/TaoRockit.jpg", desc: "Táo Rockit là dòng táo cao cấp có nguồn gốc từ New Zealand, nổi bật với kích thước nhỏ gọn, vỏ đỏ bóng đẹp và vị ngọt giòn tự nhiên."},
+  { id: 10, name: "Cherry Đỏ Mỹ", price: 189000, img: "NhapKhau/cherry.jpg", desc: "Cherry đỏ Mỹ được ưa chuộng nhờ vỏ đỏ bóng đẹp, thịt chắc giòn và vị ngọt đậm đặc trưng. Đây là loại trái cây cao cấp, thích hợp để thưởng thức hằng ngày hoặc làm quà biếu." },
+  { id: 11, name: "Việt Quất", price: 90000, img: "NhapKhau/VietQuat.jpg", desc: "Quả việt quất nổi bật với màu xanh tím đặc trưng, vị ngọt nhẹ xen chút chua thanh và hàm lượng dinh dưỡng cao. Giàu chất chống oxy hóa, vitamin và chất xơ."},
+  { id: 12, name: "Nho Mẫu Đơn Hàn Quốc", price: 650000, img: "NhapKhau/NhoHan.jpg", desc: "Nho mẫu đơn Hàn Quốc gây ấn tượng với chùm lớn, quả to tròn và lớp vỏ tím đậm đẹp mắt. Luôn đạt chất lượng đồng đều, thích hợp làm quà biếu hoặc thưởng thức hằng ngày."},
+  { id: 13, name: "Lựu Peru", price: 119000, img: "NhapKhau/LuuPeru.jpg", desc: "Lựu Peru nổi tiếng với hạt đỏ hồng ngọc đẹp mắt, vị ngọt thanh xen chút chua nhẹ và độ giòn đặc trưng. Được ưa chuộng nhờ hương vị thơm ngon và giá trị dinh dưỡng vượt trội."},
+  { id: 14, name: "Lê Hàn Quốc", price: 155000, img: "NhapKhau/LeHan.jpg", desc: "Lê Hàn Quốc luôn có kích thước lớn, hương vị thanh mát và chất lượng đồng đều. thích hợp để thưởng thức hằng ngày hoặc làm quà biếu sang trọng"},
+  { id: 15, name: "Táo Rockit", price: 129000, img: "NhapKhau/TaoRockit.jpg", desc: "Táo Rockit là dòng táo cao cấp có nguồn gốc từ New Zealand, nổi bật với kích thước nhỏ gọn, vỏ đỏ bóng đẹp và vị ngọt giòn tự nhiên."},
 ];
 
 let cart = [];
@@ -15,17 +13,15 @@ let currentProductId = null;
 let isTicking = false; 
 
 // ------------------------------------------------------
-// CHỨC NĂNG LOCAL STORAGE (QUAN TRỌNG)
+// CHỨC NĂNG LƯU TRÊN MÁY (QUAN TRỌNG)
 // ------------------------------------------------------
 
 /**
- * Lưu dữ liệu giỏ hàng (cart) vào Local Storage.
+ * Lưu dữ liệu giỏ hàng trên máy.
  * Sẽ được gọi sau mỗi thao tác thêm, giảm, xóa sản phẩm.
  */
 function saveCart() {
-    // Lưu biến 'cart' dưới dạng chuỗi JSON
     localStorage.setItem('myStoreCart', JSON.stringify(cart));
-    // Cập nhật lại giao diện ngay sau khi lưu
     updateCartList(); 
 }
 
@@ -44,11 +40,11 @@ function loadCart() {
             cart = [];
         }
     }
-    updateCartList();
+  updateCartList();
 }
 
 
-// --- HÀM HIỂN THỊ SẢN PHẨM (Giữ nguyên) ---
+// --- HÀM HIỂN THỊ SẢN PHẨM ---
 function render() {
   const container = document.getElementById('product-list');
   container.innerHTML = ''; 
@@ -67,14 +63,71 @@ function render() {
   });
 }
 
-// --- HÀM CẬP NHẬT GIỎ HÀNG VÀ VỊ TRÍ (Giữ nguyên logic thang máy, nhưng đã bị bỏ qua) ---
+// --- HÀM CẬP NHẬT GIỎ HÀNG VÀ VỊ TRÍ ---
 function updateCartList() {
     const cartItemsDiv = document.getElementById('cart-items');
     const totalSpan = document.getElementById('total-price');
-    cartItemsDiv.innerHTML = '';
+    const cartSec = document.getElementById('cart-section');
+    const cartTotalDiv = document.querySelector('.cart-total');
+    const checkoutBtn = document.querySelector('.btn-checkout');
+    
+    const minimizedBtn = document.getElementById('minimized-cart-btn'); 
+    const minimizedCountSpan = document.getElementById('minimized-cart-count'); 
     
     let total = 0;
     
+    // --- Cập nhật số lượng giỏ thu nhỏ ---
+    const totalItems = cart.reduce((sum, item) => sum + item.qty, 0); 
+    if (minimizedCountSpan) {
+        minimizedCountSpan.innerText = totalItems;
+    }
+
+    // --- Logic giỏ hàng trống ---
+    if (cart.length === 0) {
+        // Hiển thị nội dung trống
+        cartItemsDiv.innerHTML = `
+            <div style="text-align: center; color: #777; padding: 30px 10px; font-style: italic;">
+                🛒 Bạn chưa chọn sản phẩm nào.
+            </div>
+        `;
+        totalSpan.innerText = '0';
+        
+        // Ẩn tổng tiền và nút thanh toán 
+        if (cartTotalDiv) cartTotalDiv.style.display = 'none';
+        if (checkoutBtn) checkoutBtn.style.display = 'none';
+        
+        // Chỉ hiện biểu tượng nếu giỏ hàng lớn đang ẩn
+        if (minimizedBtn) {
+            const isCartVisible = getComputedStyle(cartSec).display !== 'none';
+            if (isCartVisible) {
+                minimizedBtn.classList.remove('show'); // Giỏ đang mở -> Ẩn 
+            } else {
+                minimizedBtn.classList.add('show'); // Giỏ đang ẩn -> Hiện
+            }
+        }
+        
+        return; 
+    }
+
+    // --- Logic Khi CÓ sản phẩm ---
+    
+    // Hiện tổng tiền và nút thanh toán
+    if (cartTotalDiv) cartTotalDiv.style.display = 'block';
+    if (checkoutBtn) checkoutBtn.style.display = 'block';
+    
+    // Logic hiển thị biểu tượng/giỏ hàng lớn
+    if (minimizedBtn) {
+        // Kiểm tra xem giỏ hàng lớn đang mở hay không
+        const isCartVisible = getComputedStyle(cartSec).display !== 'none';
+        if (isCartVisible) {
+            minimizedBtn.classList.remove('show'); // Giỏ lớn đang mở -> Ẩn
+        } else {
+            minimizedBtn.classList.add('show'); // Giỏ lớn đang đóng -> Hiện
+        }
+    }
+    
+    cartItemsDiv.innerHTML = ''; // Xóa nội dung "trống"
+
     const groupedCart = {};
     cart.forEach(item => {
         if (!groupedCart[item.id]) {
@@ -104,18 +157,11 @@ function updateCartList() {
          </div>
        `;
     }
-
     totalSpan.innerText = total.toLocaleString('vi-VN');
-    
-    const cartSec = document.getElementById('cart-section');
-    cartSec.style.display = cart.length > 0 ? 'block' : 'none';
-    
-    // Nếu có kích hoạt chế độ thang máy, gọi hàm này
-    // if (cart.length > 0) { setTimeout(moveCartElevator, 100); }
 }
 
 
-// --- HÀM THAO TÁC GIỎ HÀNG (ĐÃ THÊM saveCart() SAU MỖI THAY ĐỔI) ---
+// --- HÀM THAO TÁC GIỎ HÀNG ---
 function decreaseItem(id) {
     const index = cart.findIndex(item => item.id === id); 
     if (index !== -1) {
@@ -125,23 +171,48 @@ function decreaseItem(id) {
             cart.splice(index, 1);
         }
     }
-    // GỌI SAVE
     saveCart(); 
 }
 
 function removeItem(id) {
     cart = cart.filter(item => item.id !== id);
-    // GỌI SAVE
     saveCart();
 }
 
 function toggleCart() {
-   const cartSec = document.getElementById('cart-section');
-   cartSec.style.display = cartSec.style.display === 'none' || cart.length === 0 ? 'block' : 'none';
-   if(cart.length === 0 && cartSec.style.display === 'block') {
-       alert("Giỏ hàng chưa có sản phẩm nào!");
-       cartSec.style.display = 'none';
-   }
+    const cartSec = document.getElementById('cart-section');
+    const minimizedBtn = document.getElementById('minimized-cart-btn');
+
+    // Kiểm tra xem giỏ hàng lớn có hiển thị không
+    const isCartVisible = getComputedStyle(cartSec).display !== 'none';
+    
+    if (isCartVisible) {
+        // HÀNH ĐỘNG: Bấm Đóng -> Thu nhỏ
+        cartSec.style.opacity = '0';
+        cartSec.style.transform = 'scale(0.8)';
+        
+        // Sau hoạt ảnh, ẩn 
+        setTimeout(() => {
+            cartSec.style.display = 'none';
+        }, 300);
+        
+        if (minimizedBtn) {
+            minimizedBtn.classList.add('show'); // Hiện biểu tượng với hiệu ứng
+        }
+        
+    } else {
+        // HÀNH ĐỘNG: Bấm thu nhỏ -> Mở lớn
+        cartSec.style.display = 'block';
+        
+        setTimeout(() => {
+            cartSec.style.opacity = '1';
+            cartSec.style.transform = 'scale(1)';
+        }, 10);
+        
+        if (minimizedBtn) {
+            minimizedBtn.classList.remove('show');
+        }
+    }
 }
 
 
@@ -155,11 +226,11 @@ function addToCart(id, quantity) {
     cart.push({ ...product, qty: quantity });
   }
   
-  // GỌI SAVE
   saveCart();
+  updateCartList()
 }
 
-// --- HÀM POPUP VÀ THANH TOÁN (Giữ nguyên) ---
+// --- HÀM POPUP VÀ THANH TOÁN ---
 function openModal(id) {
   const p = products.find(x => x.id === id);
   currentProductId = id;
@@ -172,7 +243,6 @@ function openModal(id) {
   
   const modal = document.getElementById('product-modal');
   
-  // Logic cũ của popup đã bỏ qua:
   // const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
   // const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
   // modal.style.top = scrollTop + 'px'; 
@@ -230,6 +300,5 @@ function checkout() {
   }
 }
 
-// Bắt đầu: Tải giỏ hàng trước, sau đó hiển thị sản phẩm
 loadCart(); 
 render();
