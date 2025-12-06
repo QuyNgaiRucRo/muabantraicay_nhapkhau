@@ -1,12 +1,33 @@
 // Dữ liệu sản phẩm 
-const products = [
-  { id: 10, name: "Cherry Đỏ Mỹ", price: 189000, img: "NhapKhau/cherry.jpg", desc: "Cherry đỏ Mỹ được ưa chuộng nhờ vỏ đỏ bóng đẹp, thịt chắc giòn và vị ngọt đậm đặc trưng. Đây là loại trái cây cao cấp, thích hợp để thưởng thức hằng ngày hoặc làm quà biếu." },
-  { id: 11, name: "Việt Quất", price: 90000, img: "NhapKhau/VietQuat.jpg", desc: "Quả việt quất nổi bật với màu xanh tím đặc trưng, vị ngọt nhẹ xen chút chua thanh và hàm lượng dinh dưỡng cao. Giàu chất chống oxy hóa, vitamin và chất xơ."},
-  { id: 12, name: "Nho Mẫu Đơn Hàn Quốc", price: 650000, img: "NhapKhau/NhoHan.jpg", desc: "Nho mẫu đơn Hàn Quốc gây ấn tượng với chùm lớn, quả to tròn và lớp vỏ tím đậm đẹp mắt. Luôn đạt chất lượng đồng đều, thích hợp làm quà biếu hoặc thưởng thức hằng ngày."},
-  { id: 13, name: "Lựu Peru", price: 119000, img: "NhapKhau/LuuPeru.jpg", desc: "Lựu Peru nổi tiếng với hạt đỏ hồng ngọc đẹp mắt, vị ngọt thanh xen chút chua nhẹ và độ giòn đặc trưng. Được ưa chuộng nhờ hương vị thơm ngon và giá trị dinh dưỡng vượt trội."},
-  { id: 14, name: "Lê Hàn Quốc", price: 155000, img: "NhapKhau/LeHan.jpg", desc: "Lê Hàn Quốc luôn có kích thước lớn, hương vị thanh mát và chất lượng đồng đều. thích hợp để thưởng thức hằng ngày hoặc làm quà biếu sang trọng"},
-  { id: 15, name: "Táo Rockit", price: 129000, img: "NhapKhau/TaoRockit.jpg", desc: "Táo Rockit là dòng táo cao cấp có nguồn gốc từ New Zealand, nổi bật với kích thước nhỏ gọn, vỏ đỏ bóng đẹp và vị ngọt giòn tự nhiên."},
+const ALL_PRODUCTS = [
+  //Hoa quả trong nước
+  { id: 1, name: "Chôm chôm Vĩnh Long", price: 48000, img: "HinhAnh/TrongNuoc/ChomChom.jpg", desc: "Chôm chôm tróc hạt, vị ngọt đậm đà, cùi dày. Đặc sản Vĩnh Long chính hiệu." },
+  { id: 2, name: "Dâu tây Đà Lạt", price: 190000, img: "HinhAnh/TrongNuoc/dau.jpg", desc: "Dâu tây Đà Lạt tươi ngon, hái tại vườn. Vị chua ngọt thanh mát, giàu vitamin." },
+  { id: 3, name: "Dừa Bến Tre", price: 15000, img: "HinhAnh/TrongNuoc/dua.jpg", desc: "Dừa xiêm xanh Bến Tre nước ngọt lịm, cùi dừa vừa ăn. Giải khát tuyệt vời." },
+  { id: 4, name: "Nho xanh Ninh Thuận", price: 100000, img: "HinhAnh/TrongNuoc/nho.jpg", desc: "Nho xanh Ninh Thuận giòn, ngọt, không hạt. Chùm to đẹp mắt." },
+  { id: 5, name: "Xoài Cát Hòa Lộc", price: 80000, img: "HinhAnh/TrongNuoc/xoai.jpg", desc: "Vua của các loại xoài. Xoài Cát Hòa Lộc thơm lừng, thịt vàng ươm, ngọt sắc." },
+  { id: 6, name: "Vải thiều Thanh Hà", price: 90000, img: "HinhAnh/TrongNuoc/vai.jpg", desc: "Vải thiều hạt nhỏ, cùi dày, mọng nước. Đặc sản nổi tiếng miền Bắc." },
+  { id: 7, name: "Thanh Long Bình Thuận", price: 30000, img: "HinhAnh/TrongNuoc/thanhlong.jpg", desc: "Thanh long ruột trắng Bình Thuận, vị ngọt thanh, tính mát." },
+  { id: 8, name: "Măng cụt Chợ Lách", price: 75000, img: "HinhAnh/TrongNuoc/mangcut.jpg", desc: "Măng cụt Chợ Lách múi trắng ngần, ngọt thanh xen lẫn vị chua nhẹ hấp dẫn." },
+  { id: 9, name: "Sầu Riêng Ri6", price: 150000, img: "HinhAnh/TrongNuoc/saurieng.jpg", desc: "Sầu riêng Ri6 múi vàng hạt lép, béo ngậy, thơm nức mũi."},
+  //Hoa quả nhập khẩu
+  { id: 10, name: "Cherry Đỏ Mỹ", price: 189000, img: "HinhAnh/NhapKhau/cherry.jpg", desc: "Cherry đỏ Mỹ được ưa chuộng nhờ vỏ đỏ bóng đẹp, thịt chắc giòn và vị ngọt đậm đặc trưng. Đây là loại trái cây cao cấp, thích hợp để thưởng thức hằng ngày hoặc làm quà biếu." },
+  { id: 11, name: "Việt Quất", price: 90000, img: "HinhAnh/NhapKhau/VietQuat.jpg", desc: "Quả việt quất nổi bật với màu xanh tím đặc trưng, vị ngọt nhẹ xen chút chua thanh và hàm lượng dinh dưỡng cao. Giàu chất chống oxy hóa, vitamin và chất xơ."},
+  { id: 12, name: "Nho Mẫu Đơn Hàn Quốc", price: 650000, img: "HinhAnh/NhapKhau/NhoHan.jpg", desc: "Nho mẫu đơn Hàn Quốc gây ấn tượng với chùm lớn, quả to tròn và lớp vỏ tím đậm đẹp mắt. Luôn đạt chất lượng đồng đều, thích hợp làm quà biếu hoặc thưởng thức hằng ngày."},
+  { id: 13, name: "Lựu Peru", price: 119000, img: "HinhAnh/NhapKhau/LuuPeru.jpg", desc: "Lựu Peru nổi tiếng với hạt đỏ hồng ngọc đẹp mắt, vị ngọt thanh xen chút chua nhẹ và độ giòn đặc trưng. Được ưa chuộng nhờ hương vị thơm ngon và giá trị dinh dưỡng vượt trội."},
+  { id: 14, name: "Lê Hàn Quốc", price: 155000, img: "HinhAnh/NhapKhau/LeHan.jpg", desc: "Lê Hàn Quốc luôn có kích thước lớn, hương vị thanh mát và chất lượng đồng đều. thích hợp để thưởng thức hằng ngày hoặc làm quà biếu sang trọng"},
+  { id: 15, name: "Táo Rockit", price: 129000, img: "HinhAnh/NhapKhau/TaoRockit.jpg", desc: "Táo Rockit là dòng táo cao cấp có nguồn gốc từ New Zealand, nổi bật với kích thước nhỏ gọn, vỏ đỏ bóng đẹp và vị ngọt giòn tự nhiên."},
+  //Giỏ hoa quả
+  { id: 16, name: "Giỏ hoa quả cao cấp 1", price: 853000, img: "HinhAnh/GioHoaQua/CC1.jpg", desc: "Giỏ hoa quả cao cấp là sự kết hợp tinh tế giữa những loại trái cây tươi ngon, chất lượng nhất, được tuyển chọn kỹ lưỡng và sắp xếp đẹp mắt. Đây là lựa chọn lý tưởng cho các dịp biếu tặng, lễ Tết, sự kiện hay gửi lời chúc sức khỏe với người thân hoặc đối tác."},
+  { id: 17, name: "Giỏ hoa quả cao cấp 2", price: 673000, img: "HinhAnh/GioHoaQua/CC2.jpg", desc: "Giỏ hoa quả cao cấp là sự kết hợp tinh tế giữa những loại trái cây tươi ngon, chất lượng nhất, được tuyển chọn kỹ lưỡng và sắp xếp đẹp mắt. Đây là lựa chọn lý tưởng cho các dịp biếu tặng, lễ Tết, sự kiện hay gửi lời chúc sức khỏe với người thân hoặc đối tác."},
+  { id: 18, name: "Giỏ hoa quả cao cấp 3", price: 898000, img: "HinhAnh/GioHoaQua/CC3.jpg", desc: "Giỏ hoa quả cao cấp là sự kết hợp tinh tế giữa những loại trái cây tươi ngon, chất lượng nhất, được tuyển chọn kỹ lưỡng và sắp xếp đẹp mắt. Đây là lựa chọn lý tưởng cho các dịp biếu tặng, lễ Tết, sự kiện hay gửi lời chúc sức khỏe với người thân hoặc đối tác."},
+  { id: 19, name: "Giỏ hoa quả cao cấp 4", price: 500000, img: "HinhAnh/GioHoaQua/CC4.jpg", desc: "Giỏ hoa quả cao cấp là sự kết hợp tinh tế giữa những loại trái cây tươi ngon, chất lượng nhất, được tuyển chọn kỹ lưỡng và sắp xếp đẹp mắt. Đây là lựa chọn lý tưởng cho các dịp biếu tặng, lễ Tết, sự kiện hay gửi lời chúc sức khỏe với người thân hoặc đối tác."},
 ];
+
+const ID_BAT_DAU = 10;
+const ID_KET_THUC = 15;
+
+const products = ALL_PRODUCTS.filter(p => p.id >= ID_BAT_DAU && p.id <= ID_KET_THUC);
 
 let cart = [];
 let currentProductId = null;
@@ -294,7 +315,7 @@ function checkout() {
   const groupedCart = {};
   cart.forEach(item => {
     // Tìm thông tin đầy đủ của sản phẩm, bao gồm cả đường dẫn ảnh
-    const product = products.find(p => p.id === item.id);
+    const product = ALL_PRODUCTS.find(p => p.id === item.id);
     const itemTotal = item.price * item.qty;
     total += itemTotal;
 
@@ -364,7 +385,11 @@ function processPayment() {
     closeCheckout();
     const manHinhThanhCong = document.getElementById('success-overlay');
     manHinhThanhCong.style.display = 'flex';
-
+    const closeButton = document.getElementById('btn-success-close');
+    if (closeButton) {
+        closeButton.style.display = 'none'; // ẨN nút Đóng/Tiếp tục mua sắm
+    }
+    
     // 4. KÍCH HOẠT HOẠT ẢNH CHUYỂN TRẠNG THÁI
     const loader = document.getElementById('circle-loader');
     const dauTich = document.getElementById('checkmark-draw');
@@ -378,6 +403,11 @@ function processPayment() {
         loader.classList.add('load-complete');
         dauTich.classList.add('draw');
     }, 1000); //n ở đây
+    setTimeout(() => {
+      if (closeButton) {
+          closeButton.style.display = 'block';
+      }
+    }, 1020);
 }
 
 // Đóng màn hình thành công
