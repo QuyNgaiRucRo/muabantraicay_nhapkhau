@@ -16,19 +16,17 @@ let isTicking = false;
 // CHỨC NĂNG LƯU TRÊN MÁY (QUAN TRỌNG)
 // ------------------------------------------------------
 
-/**
- * Lưu dữ liệu giỏ hàng trên máy.
- * Sẽ được gọi sau mỗi thao tác thêm, giảm, xóa sản phẩm.
- */
+
+// Lưu dữ liệu giỏ hàng trên máy.
+// Sẽ được gọi sau mỗi thao tác thêm, giảm, xóa sản phẩm.
 function saveCart() {
     localStorage.setItem('myStoreCart', JSON.stringify(cart));
     updateCartList(); 
 }
 
-/**
- * Tải dữ liệu giỏ hàng từ Local Storage khi trang tải.
- * Sẽ được gọi ở cuối tệp script.
- */
+// Tải dữ liệu giỏ hàng từ Local Storage khi trang tải.
+// Sẽ được gọi ở cuối tệp script.
+
 function loadCart() {
     const savedCart = localStorage.getItem('myStoreCart');
     if (savedCart) {
@@ -280,24 +278,116 @@ function addFromModal() {
 }
 
 function checkout() {
-  if(cart.length === 0) { alert("Giỏ hàng trống!"); return; }
-  
-  let message = "Đơn hàng mới:\n";
+  if (cart.length === 0) { alert("Giỏ hàng trống!"); return; }
+
+  const summaryContainer = document.getElementById('checkout-cart-summary');
+  let summaryHTML = '<h3>Tổng quan Đơn hàng</h3>';
   let total = 0;
+
+  // 1. Điền dữ liệu vào bảng tóm tắt
+  const listContainer = document.getElementById('checkout-list');
+  const totalPriceEl = document.getElementById('checkout-total-price');
+  listContainer.innerHTML = '';
   
+  
+  // Gom nhóm sản phẩm để hiển thị gọn gàng
+  const groupedCart = {};
   cart.forEach(item => {
-     total += item.price * item.qty;
-     message += `- ${item.name}: ${item.qty}kg (${(item.price * item.qty).toLocaleString('vi-VN')}đ)\n`;
+    // Tìm thông tin đầy đủ của sản phẩm, bao gồm cả đường dẫn ảnh
+    const product = products.find(p => p.id === item.id);
+    const itemTotal = item.price * item.qty;
+    total += itemTotal;
+
+    // Tạo HTML hiển thị ảnh, tên, số lượng và tổng phụ
+    listContainer.innerHTML += `
+      <div class="checkout-summary-item">
+        <div class="checkout-summary-info">
+          <img src="${product.img}" alt="${product.name}" class="checkout-product-img">
+          <div class="checkout-item-details">
+            <div class="checkout-item-name">${item.name}</div>
+            <div class="checkout-item-qty-price">
+              ${item.qty} x ${item.price.toLocaleString('vi-VN')}đ 
+            </div>
+          </div>
+        </div>
+        <div style="font-weight: bold; color: #d32f2f;">
+            ${itemTotal.toLocaleString('vi-VN')}đ
+        </div>
+      </div>
+    `;
   });
   
-  message += `\nTổng tiền: ${total.toLocaleString('vi-VN')}đ`;
+  totalPriceEl.innerText = total.toLocaleString('vi-VN') + 'đ';
+
+  // 2. Hiện Thanh Toán
+  document.getElementById('cart-section').style.display = 'none'; // Ẩn giỏ hàng bên phải
+  document.getElementById('checkout-modal').style.display = 'flex'; // Hiện thanh toán
+}
+
+function closeCheckout() {
+  // 1. Ẩn thanh toán
+  document.getElementById('checkout-modal').style.display = 'none';
   
-  const ZALO_PHONE = '0967745329'; 
-  const confirmation = confirm(message + "\n\nBấm OK để gửi qua Zalo.");
+  // 2. Hiện lại giỏ hàng lớn
+  document.getElementById('cart-section').style.display = 'block';
   
-  if (confirmation) {
-    window.open(`https://zalo.me/${ZALO_PHONE}?text=${encodeURIComponent(message)}`, '_blank');
-  }
+  // 3. Ẩn biểu tượng thu nhỏ (tránh lỗi hiển thị kép)
+  const minimizedBtn = document.getElementById('minimized-cart-btn');
+  if (minimizedBtn) minimizedBtn.style.display = 'none';
+}
+
+// XỬ LÝ THANH TOÁN
+function processPayment() {
+    // 1. Lấy thông tin khách hàng
+    const name = document.getElementById('cus-name').value;
+    const phone = document.getElementById('cus-phone').value;
+    const address = document.getElementById('cus-address').value;
+    const payment = document.getElementById('cus-payment').value;
+    const note = document.getElementById('cus-note').value;
+
+    // 2. Kiểm tra thông tin đơn giản
+    if (!name || !phone || !address) {
+        alert("Vui lòng điền đầy đủ Tên, Số điện thoại và Địa chỉ!");
+        return;
+    }
+
+    // --- CÓ THỂ GỬI DỮ LIỆU ĐI (Zalo/Google Sheet) ---
+    // Ví dụ tạo tin nhắn Zalo ngầm:
+    // let msg = `Đơn hàng mới từ ${name} (${phone})...`;
+    // window.open(...) 
+    
+    // 3. XÓA DỮ LIỆU ĐÃ LƯU
+    cart = [];
+    localStorage.removeItem('myStoreCart');
+    updateCartList();
+
+    closeCheckout();
+    const manHinhThanhCong = document.getElementById('success-overlay');
+    manHinhThanhCong.style.display = 'flex';
+
+    // 4. KÍCH HOẠT HOẠT ẢNH CHUYỂN TRẠNG THÁI
+    const loader = document.getElementById('circle-loader');
+    const dauTich = document.getElementById('checkmark-draw');
+    
+    // Đảm bảo hoạt ảnh bắt đầu từ trạng thái xoay
+    loader.classList.remove('load-complete');
+    dauTich.classList.remove('draw');
+    
+    //Xoay xong sau n giây
+    setTimeout(() => {
+        loader.classList.add('load-complete');
+        dauTich.classList.add('draw');
+    }, 1000); //n ở đây
+}
+
+// Đóng màn hình thành công
+function closeSuccess() {
+    document.getElementById('success-overlay').style.display = 'none';
+    const minimizedCartBtn = document.getElementById('minimized-cart-btn');
+    if (minimizedCartBtn) {
+        minimizedCartBtn.style.display = 'block'; 
+        updateCartList();
+    }
 }
 
 loadCart(); 
